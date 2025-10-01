@@ -19,10 +19,16 @@ local function piFunction()
 		
 		Multiplying by 2 * math.pi gives you a fraction of the full circle.
 		Multiplying by 2π turns that fraction into an actual rotation angle in radians
-		
 	]]
-	for i = 0, numPosts - 1 do
-		local angle: number = (i / numPosts)
+	for i: number = 0, numPosts - 1 do
+		local angle: number = (i / numPosts) * 2 * math.pi
+		
+		local post = Instance.new("Part")
+		post.Position = center.Position + Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+		post.CanCollide = false
+		post.Parent = workspace
 	end
-
+	
 end
+
+piFunction()
