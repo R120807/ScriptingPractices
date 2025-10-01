@@ -20,7 +20,8 @@ type EventDispatcher<T> = {
 	connect: ((T) -> ()) -> RBXScriptConnection
 }
 
-local function createDispatcher<T>(): EventDispatcher<T>
+
+local function createDispatcher<T>(): EventDispatcher<T>	
 	local bindable = Instance.new("BindableEvent")
 	return {
 		fire = function(value: T)
