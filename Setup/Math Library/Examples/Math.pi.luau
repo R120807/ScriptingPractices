@@ -3,13 +3,18 @@
 
 	Math.pi is the mathematical constant for pi, for circles, angles, etc. It is used in wheels or orbital paths.
 ]]
+local RunService = game:GetService("RunService")
 
-
+--[[
+	piFunction
+	
+	Purpose: To create a static ring of parts once
+]]
 local function piFunction()
 	local center: Instance? = workspace:FindFirstChild("Part")
 	local radius: number = 10
 	local numPosts: number = 20
-	
+
 	--[[
 		i goes from 0 to numPosts - 1
 		Dividing it by numPosts converts that index into a fraction of the circle
@@ -22,13 +27,47 @@ local function piFunction()
 	]]
 	for i: number = 0, numPosts - 1 do
 		local angle: number = (i / numPosts) * 2 * math.pi
-		
+
 		local post = Instance.new("Part")
 		post.Position = center.Position + Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
 		post.CanCollide = false
 		post.Parent = workspace
 	end
-	
+
 end
 
-piFunction()
+--[[
+	rotatePlatform
+
+	Purpose: To create continuous motion forever
+]]
+local function rotatePlatform()
+	local center: Instance? = workspace:WaitForChild("Part")
+	local platform = Instance.new("Part")
+	
+	platform.Anchored = true
+	platform.Name = "Platform"
+	platform.Parent = workspace
+	
+	local radius: number = 10
+	local rotationSpeed: number = 2
+	local currentTime: number = 0
+	
+	RunService.Heartbeat:Connect(function(deltaTime)
+		currentTime = currentTime + deltaTime
+		
+		local currentAngle: number = currentTime * rotationSpeed 
+		
+		
+		local xOffset = math.cos(currentAngle) * radius
+		local zOffset = math.sin(currentAngle) * radius
+		
+		local newPosition: Vector3 = center.Position + Vector3.new(xOffset, 0, zOffset)
+		platform.Position =  newPosition
+		
+		platform.CFrame = CFrame.new(platform.Position, center.Position)
+	end)
+end
+
+
+rotatePlatform()
