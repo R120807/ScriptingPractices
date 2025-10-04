@@ -31,6 +31,7 @@ local function piFunction()
 		local post = Instance.new("Part")
 		post.Position = center.Position + Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
 		post.CanCollide = false
+		post.Anchored = true
 		post.Parent = workspace
 	end
 
@@ -44,6 +45,7 @@ end
 local function rotatePlatform()
 	local center: Instance? = workspace:WaitForChild("Part")
 	local platform = Instance.new("Part")
+	local model = Instance.new("Model")
 	
 	platform.Anchored = true
 	platform.Name = "Platform"
@@ -56,7 +58,7 @@ local function rotatePlatform()
 	RunService.Heartbeat:Connect(function(deltaTime)
 		currentTime = currentTime + deltaTime
 		
-		local currentAngle: number = currentTime * rotationSpeed 
+		local currentAngle: number = currentTime * rotationSpeed
 		
 		
 		local xOffset = math.cos(currentAngle) * radius
@@ -70,4 +72,21 @@ local function rotatePlatform()
 end
 
 
-rotatePlatform()
+local function spiralParts()
+	local center: Instance? = workspace:WaitForChild("Part")
+	local radius: number = 10
+	local numPosts: number = 20
+
+
+	for i = 0, numPosts - 1 do
+		local angle: number = i * 2 * math.pi
+
+		local post = Instance.new("Part")
+		post.Position = center.Position + Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+		post.Anchored = true
+		post.CanCollide = false
+		post.Parent = workspace
+	end
+end
+
+spiralParts()
